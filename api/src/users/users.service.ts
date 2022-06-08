@@ -11,9 +11,7 @@ export class UsersService {
     createUserInput.password = await hash(createUserInput.password, 10)
 
     try {
-      const user = await this.prisma.user.create({
-        data: createUserInput,
-      })
+      const user = await this.prisma.user.create({ data: createUserInput })
 
       return user
     } catch {

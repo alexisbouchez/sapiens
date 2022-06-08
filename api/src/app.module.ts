@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { AuthModule } from './auth/auth.module'
 import { UsersModule } from './users/users.module'
-import { JobsModule } from './jobs/jobs.module';
+import { JobsModule } from './jobs/jobs.module'
 
 @Module({
   imports: [
@@ -11,6 +11,8 @@ import { JobsModule } from './jobs/jobs.module';
       autoSchemaFile: true,
       driver: ApolloDriver,
       sortSchema: true,
+      context: ({ req }) => ({ req }),
+      cors: { origin: true, credentials: true },
     }),
     AuthModule,
     UsersModule,

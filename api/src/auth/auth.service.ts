@@ -5,6 +5,7 @@ import { CreateUserInput } from '~/users/dto/create-user.input'
 import { UsersService } from '~/users/users.service'
 import { UsersRepository } from '~/users/users.repository'
 import { compare } from 'bcrypt'
+import { Response } from 'express'
 
 @Injectable()
 export class AuthService {
@@ -13,16 +14,21 @@ export class AuthService {
     private readonly usersRepository: UsersRepository,
   ) {}
 
-  authenticate(user: User): void {}
+  authenticate(user: User, response: Response): void {
+    response.cookie('__sapiens_user_id__', user.id, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    })
+  }
 
-  async signUp(createUserInput: CreateUserInput) {
+  async signUp(createUserInput: CreateUserInput, response: Response) {
     const createdUser = await this.usersService.create(createUserInput)
-    this.authenticate(createdUser)
+    this.authenticate(createdUser, response)
 
     return 'You are now signed up.'
   }
 
-  async signIn(authCredentialsInput: AuthCredentialsInput) {
+  async signIn(authCredentialsInput: AuthCredentialsInput, response: Response) {
     const userFoundByEmail = await this.usersRepository.findOneByEmail(
       authCredentialsInput.email,
     )
@@ -40,7 +46,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials.')
     }
 
-    this.authenticate(userFoundByEmail)
+    this.authenticate(userFoundByEmail, response)
 
     return 'You are now signed in.'
   }
