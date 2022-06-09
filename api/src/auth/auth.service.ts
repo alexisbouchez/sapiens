@@ -1,12 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
+import { compare } from 'bcrypt'
+import { Response } from 'express'
 import { AuthCredentialsInput } from './dto/auth-credentials.input'
 import { CreateUserInput } from '~/users/dto/create-user.input'
 import { UsersService } from '~/users/users.service'
 import { UsersRepository } from '~/users/users.repository'
-import { compare } from 'bcrypt'
-import { Response } from 'express'
-import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
 export class AuthService {
@@ -19,7 +19,7 @@ export class AuthService {
   authenticate(user: User, response: Response): void {
     const token = this.jwtService.sign({ id: user.id })
 
-    response.cookie('__sapiens_user_id__', token, {
+    response.cookie('__sapiens_auth_token__', token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     })
@@ -56,7 +56,7 @@ export class AuthService {
   }
 
   signOut(response: Response) {
-    response.clearCookie('__sapiens_user_id__', {
+    response.clearCookie('__sapiens_auth_token__', {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     })

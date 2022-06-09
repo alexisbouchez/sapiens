@@ -32,7 +32,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 }
 
 function extractFromCookie(request: Request) {
-  const cookie = request?.cookies['__sapiens_user_id__']
+  const cookie = request?.cookies['__sapiens_auth_token__']
 
   return cookie
 }
