@@ -19,8 +19,13 @@ export class AuthResolver {
   @Mutation(() => String)
   signIn(
     @Args('authCredentialsInput') authCredentialsInput: AuthCredentialsInput,
-    @Context('req') { cookies, res: response }: Request,
+    @Context('req') { res: response }: Request,
   ) {
     return this.authService.signIn(authCredentialsInput, response)
+  }
+
+  @Mutation(() => String)
+  signOut(@Context('req') { res: response }: Request) {
+    return this.authService.signOut(response)
   }
 }

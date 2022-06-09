@@ -6,16 +6,20 @@ import { UsersService } from '~/users/users.service'
 import { UsersRepository } from '~/users/users.repository'
 import { compare } from 'bcrypt'
 import { Response } from 'express'
+import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly usersRepository: UsersRepository,
+    private readonly jwtService: JwtService,
   ) {}
 
   authenticate(user: User, response: Response): void {
-    response.cookie('__sapiens_user_id__', user.id, {
+    const token = this.jwtService.sign({ id: user.id })
+
+    response.cookie('__sapiens_user_id__', token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     })
@@ -49,5 +53,14 @@ export class AuthService {
     this.authenticate(userFoundByEmail, response)
 
     return 'You are now signed in.'
+  }
+
+  signOut(response: Response) {
+    response.clearCookie('__sapiens_user_id__', {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    })
+
+    return 'You are now signed out.'
   }
 }

@@ -8,4 +8,8 @@ export class UsersRepository {
   findOneByEmail(email: string) {
     return this.prisma.user.findUnique({ where: { email } })
   }
+
+  findOneById(id: string) {
+    return this.prisma.user.findUnique({ where: { id } })
+  }
 }
