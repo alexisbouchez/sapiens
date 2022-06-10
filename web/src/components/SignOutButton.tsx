@@ -1,20 +1,20 @@
 import { useMutation } from '@apollo/client'
 import { useRouter } from 'next/router'
-import { useAuthContext } from '~/contexts/AuthContext'
+import useAuthContext from '~/hooks/useAuthContext'
 import { SIGN_OUT } from '~/lib/graphql/mutations/auth'
 
 export default function SignOutButton() {
-  const [signOut, { data, loading, error }] = useMutation(SIGN_OUT)
-  const { isAuthenticated, setIsAuthenticated } = useAuthContext()
+  const [signOut, { loading }] = useMutation(SIGN_OUT)
+  const { isAuthenticated, setMe } = useAuthContext()
   const router = useRouter()
 
   const onSignOut = async () => {
     await signOut()
-    setIsAuthenticated(false)
+    setMe(undefined)
     router.push('/sign-in', undefined, { shallow: false })
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated()) {
     return null
   }
 

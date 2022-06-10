@@ -29,7 +29,7 @@ export class AuthService {
     const createdUser = await this.usersService.create(createUserInput)
     this.authenticate(createdUser, response)
 
-    return 'You are now signed up.'
+    return createdUser
   }
 
   async signIn(authCredentialsInput: AuthCredentialsInput, response: Response) {
@@ -52,7 +52,9 @@ export class AuthService {
 
     this.authenticate(userFoundByEmail, response)
 
-    return 'You are now signed in.'
+    userFoundByEmail.password = undefined
+
+    return userFoundByEmail
   }
 
   signOut(response: Response) {

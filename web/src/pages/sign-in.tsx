@@ -1,66 +1,46 @@
 import { useMutation } from '@apollo/client'
-import type { NextPage } from 'next'
+import type { Page } from '~/types'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { useAuthContext } from '~/contexts/AuthContext'
+import SubmitButton from '~/components/common/forms/buttons/SubmitButton'
+import InputField from '~/components/common/forms/fields/InputField'
+import useAuthContext from '~/hooks/useAuthContext'
+import useForm from '~/hooks/useForm'
 import { SIGN_IN } from '~/lib/graphql/mutations/auth'
 
-const SignIn: NextPage = () => {
-  const [authCredentials, setAuthCredentials] = useState({
-    email: '',
-    password: '',
-  })
-
-  const [signIn, { data, loading, error }] = useMutation(SIGN_IN)
-
-  const { setIsAuthenticated } = useAuthContext()
-
+const SignIn: Page = () => {
+  const [signIn, { loading, error }] = useMutation(SIGN_IN)
+  const { setMe } = useAuthContext()
   const router = useRouter()
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAuthCredentials({
-      ...authCredentials,
-      [event.target.name]: event.target.value,
-    })
-  }
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    try {
-      await signIn({ variables: authCredentials })
-
-      setIsAuthenticated(true)
-      router.push('/')
-    } catch {}
-  }
+  const { variables, onChange, onSubmit } = useForm({
+    initialVariables: { email: '', password: '' },
+    handleSubmit: async (variables) => {
+      const { data } = await signIn({ variables })
+      setMe(data.signIn)
+      router.push('/settings')
+    },
+  })
 
   return (
     <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={authCredentials.email}
-          onChange={onChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={authCredentials.password}
-          onChange={onChange}
-        />
-      </div>
+      <InputField
+        id="email"
+        name="email"
+        label="Email"
+        type="email"
+        value={variables.email}
+        onChange={onChange}
+      />
+      <InputField
+        id="password"
+        name="password"
+        label="Password"
+        type="password"
+        value={variables.password}
+        onChange={onChange}
+      />
       {error ? <p>{error.message}</p> : null}
-      <div>
-        <button type="submit">Submit</button>
-      </div>
+      <SubmitButton loading={loading} />
     </form>
   )
 }

@@ -3,12 +3,15 @@ import { CreateUserInput } from '~/users/dto/create-user.input'
 import { AuthService } from './auth.service'
 import { AuthCredentialsInput } from './dto/auth-credentials.input'
 import { Request } from 'express'
+import { UsePipes, ValidationPipe } from '@nestjs/common'
+import { User } from '~/users/user.entity'
 
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => String)
+  @Mutation(() => User)
+  @UsePipes(ValidationPipe)
   signUp(
     @Args('createUserInput') createUserInput: CreateUserInput,
     @Context('req') { res: response }: Request,
@@ -16,7 +19,7 @@ export class AuthResolver {
     return this.authService.signUp(createUserInput, response)
   }
 
-  @Mutation(() => String)
+  @Mutation(() => User)
   signIn(
     @Args('authCredentialsInput') authCredentialsInput: AuthCredentialsInput,
     @Context('req') { res: response }: Request,
