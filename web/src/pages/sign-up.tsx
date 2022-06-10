@@ -121,7 +121,7 @@ export default function SignUp() {
                     <p className="text-red-600">{otherError}</p>
                   ) : null}
 
-                  <SubmitButton loading={loading}>
+                  <SubmitButton loading={loading} className="w-full">
                     {loading ? 'Signing up...' : 'Sign up'}
                   </SubmitButton>
                 </form>

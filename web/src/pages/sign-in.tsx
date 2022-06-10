@@ -63,7 +63,7 @@ export default function SignIn() {
                     <p className="text-red-600">{otherError}</p>
                   ) : null}
 
-                  <SubmitButton loading={loading}>
+                  <SubmitButton loading={loading} className="w-full">
                     {loading ? 'Signing in...' : 'Sign in'}
                   </SubmitButton>
                 </form>

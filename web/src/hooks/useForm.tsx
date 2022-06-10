@@ -67,6 +67,8 @@ export default function useForm<T>({
     onChange,
     onSubmit,
     errors,
+    setErrors,
     otherError,
+    setOtherError,
   }
 }
