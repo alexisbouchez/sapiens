@@ -19,7 +19,11 @@ export default function SignOutButton() {
   }
 
   return (
-    <button onClick={onSignOut} disabled={loading}>
+    <button
+      onClick={onSignOut}
+      disabled={loading}
+      className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 hover:text-gray-900"
+    >
       {loading ? 'Signing out...' : 'Sign Out'}
     </button>
   )

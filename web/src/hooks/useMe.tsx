@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import useAuthContext from '~/hooks/useAuthContext'
 import { ME } from '~/lib/graphql/mutations/users'
 
-const useMe = () => {
+export default function useMe() {
   const { me, setMe } = useAuthContext()
   const { data } = useQuery(ME, { fetchPolicy: 'network-only' })
 
@@ -15,5 +15,3 @@ const useMe = () => {
 
   return { me, setMe }
 }
-
-export default useMe
