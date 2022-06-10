@@ -25,7 +25,7 @@ export default function Layout({ children, isPrivate, isPublic }: LayoutProps) {
   })
 
   return (
-    <div>
+    <div className="fullheight">
       <Head>
         <title>Sapiens</title>
       </Head>
