@@ -25,7 +25,9 @@ export default function useForm<T>({
     }
   }, [initialVariablesProp])
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setVariables({
       ...variables,
       [event.target.name]: event.target.value,

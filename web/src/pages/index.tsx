@@ -1,19 +1,34 @@
-import Link from 'next/link'
-import useAuthContext from '~/hooks/useAuthContext'
+import { useEffect, useState } from 'react'
+import Container from '~/components/common/Container'
 import type { Page } from '~/types'
+import io from 'socket.io-client'
+import NewMessageForm from '~/components/chat/NewMessageForm'
+import MessagesList from '~/components/chat/MessagesList'
 
 const Home: Page = () => {
-  const { isAuthenticated } = useAuthContext()
+  const [messages, setMessages] = useState<string[]>([])
+
+  const socket = io('http://localhost:5000')
+
+  useEffect(() => {
+    socket.on('serverToClient', (message: string) => {
+      setMessages((messages) => [...messages, message])
+    })
+  }, [])
+
+  const handleSubmit = (variables: { message: string }) => {
+    socket.emit('clientToServer', variables.message)
+  }
 
   return (
-    <div>
-      {isAuthenticated() ? (
-        <Link href="/settings">
-          <a className="text-blue-600">Settings</a>
-        </Link>
-      ) : null}
-    </div>
+    <Container>
+      <h1>Discuss</h1>
+      <NewMessageForm handleSubmit={handleSubmit} />
+      <MessagesList messages={messages} />
+    </Container>
   )
 }
 
 export default Home
+
+Home.isPrivate = true

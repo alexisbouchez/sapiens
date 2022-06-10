@@ -1,7 +1,7 @@
 export interface SubmitButtonProps {
   children?: React.ReactNode
   className?: string
-  loading: boolean
+  loading?: boolean
 }
 
 export default function SubmitButton({

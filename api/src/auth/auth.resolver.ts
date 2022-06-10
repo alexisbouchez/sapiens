@@ -1,9 +1,9 @@
+import { UsePipes, ValidationPipe } from '@nestjs/common'
 import { Resolver, Mutation, Args, Context } from '@nestjs/graphql'
+import { Request } from 'express'
 import { CreateUserInput } from '~/users/dto/create-user.input'
 import { AuthService } from './auth.service'
 import { AuthCredentialsInput } from './dto/auth-credentials.input'
-import { Request } from 'express'
-import { UsePipes, ValidationPipe } from '@nestjs/common'
 import { User } from '~/users/user.entity'
 
 @Resolver()

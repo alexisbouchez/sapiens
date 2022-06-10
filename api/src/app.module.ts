@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { AuthModule } from './auth/auth.module'
 import { UsersModule } from './users/users.module'
-import { JobsModule } from './jobs/jobs.module'
+import { ChatGateway } from './chat.gateway';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { JobsModule } from './jobs/jobs.module'
     }),
     AuthModule,
     UsersModule,
-    JobsModule,
   ],
+  providers: [ChatGateway],
 })
 export class AppModule {}
