@@ -9,7 +9,7 @@ const Home: Page = () => {
     <div>
       {isAuthenticated() ? (
         <Link href="/settings">
-          <a>Settings</a>
+          <a className="text-blue-600">Settings</a>
         </Link>
       ) : null}
     </div>
