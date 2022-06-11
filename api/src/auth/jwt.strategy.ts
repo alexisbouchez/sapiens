@@ -3,6 +3,8 @@ import { PassportStrategy } from '@nestjs/passport'
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { Request } from 'express'
 import { UsersRepository } from '~/users/users.repository'
+import { authCookieKey } from './constants'
+import { WsException } from '@nestjs/websockets'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -11,18 +13,30 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: ExtractJwt.fromExtractors([extractFromCookie]),
       ignoreExpiration: true,
       secretOrKey: process.env.JWT_SECRET,
+      passReqToCallback: true,
     })
   }
 
-  async validate(payload?: { id: string }) {
-    if (!payload || !payload.id) {
+  private throwError(useWebSockets?: boolean) {
+    if (useWebSockets) {
+      throw new WsException('Unauthorized')
+    } else {
       throw new UnauthorizedException()
+    }
+  }
+
+  async validate(
+    request: Request & { useWebSockets?: boolean },
+    payload?: { id: string },
+  ) {
+    if (!payload || !payload.id) {
+      this.throwError(request.useWebSockets)
     }
 
     const userFoundById = await this.usersRepository.findOneById(payload.id)
 
     if (!userFoundById) {
-      throw new UnauthorizedException()
+      this.throwError(request.useWebSockets)
     }
 
     userFoundById.password = undefined
@@ -32,7 +46,5 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 }
 
 function extractFromCookie(request: Request) {
-  const cookie = request?.cookies['__sapiens_auth_token__']
-
-  return cookie
+  return request?.cookies[authCookieKey] || 'pouet'
 }

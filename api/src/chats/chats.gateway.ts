@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common'
+import { Logger, UseGuards } from '@nestjs/common'
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -8,9 +8,12 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
+import { WsJwtAuthGuard } from '~/auth/ws-jwt-auth.guard'
 
-@WebSocketGateway({ cors: { origin: '*' } })
-export class ChatGateway
+@WebSocketGateway({
+  cors: { origin: process.env.FRONTEND_URL, credentials: true },
+})
+export class ChatsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   @WebSocketServer()
@@ -18,6 +21,7 @@ export class ChatGateway
 
   private logger: Logger = new Logger('AppGateway')
 
+  @UseGuards(WsJwtAuthGuard)
   @SubscribeMessage('clientToServer')
   handleMessage(client: any, payload: any): void {
     this.server.emit('serverToClient', payload)

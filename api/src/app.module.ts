@@ -2,8 +2,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { AuthModule } from './auth/auth.module'
+import { ChatsModule } from './chats/chats.module'
 import { UsersModule } from './users/users.module'
-import { ChatGateway } from './chat.gateway';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { ChatGateway } from './chat.gateway';
     }),
     AuthModule,
     UsersModule,
+    ChatsModule,
   ],
-  providers: [ChatGateway],
 })
 export class AppModule {}

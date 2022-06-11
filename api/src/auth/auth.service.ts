@@ -7,6 +7,7 @@ import { AuthCredentialsInput } from './dto/auth-credentials.input'
 import { CreateUserInput } from '~/users/dto/create-user.input'
 import { UsersService } from '~/users/users.service'
 import { UsersRepository } from '~/users/users.repository'
+import { authCookieKey } from './constants'
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
   authenticate(user: User, response: Response): void {
     const token = this.jwtService.sign({ id: user.id })
 
-    response.cookie('__sapiens_auth_token__', token, {
+    response.cookie(authCookieKey, token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     })
@@ -58,7 +59,7 @@ export class AuthService {
   }
 
   signOut(response: Response) {
-    response.clearCookie('__sapiens_auth_token__', {
+    response.clearCookie(authCookieKey, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     })
