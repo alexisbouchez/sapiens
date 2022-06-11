@@ -140,3 +140,5 @@ export default function SignUp() {
     </>
   )
 }
+
+SignUp.title = 'Sign Up'

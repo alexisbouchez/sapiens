@@ -8,9 +8,15 @@ interface LayoutProps {
   children: ReactNode
   isPrivate?: boolean
   isPublic?: boolean
+  title?: string
 }
 
-export default function Layout({ children, isPrivate, isPublic }: LayoutProps) {
+export default function Layout({
+  children,
+  isPrivate,
+  isPublic,
+  title,
+}: LayoutProps) {
   const { isAuthenticated } = useAuthContext()
   const router = useRouter()
 
@@ -27,7 +33,7 @@ export default function Layout({ children, isPrivate, isPublic }: LayoutProps) {
   return (
     <div className="fullheight">
       <Head>
-        <title>Sapiens</title>
+        <title>Sapiens {title && `- ${title}`}</title>
       </Head>
       <Header />
       {children}

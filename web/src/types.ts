@@ -4,6 +4,7 @@ import type { AuthContextProps } from './contexts/auth/AuthContext'
 
 type AdditionalPageProps = {
   isPrivate?: boolean
+  title?: string
 }
 
 export type MyAppProps = AppProps &

@@ -72,3 +72,4 @@ const Settings: Page = () => {
 export default Settings
 
 Settings.isPrivate = true
+Settings.title = 'Settings'

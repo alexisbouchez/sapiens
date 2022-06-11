@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps, me }: MyAppProps) {
   return (
     <ApolloProvider client={apolloClient}>
       <AuthProvider me={me}>
-        <Layout isPrivate={Component.isPrivate}>
+        <Layout isPrivate={Component.isPrivate} title={Component.title}>
           <Component {...pageProps} />
         </Layout>
       </AuthProvider>
