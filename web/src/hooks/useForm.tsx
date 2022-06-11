@@ -2,9 +2,14 @@ import { ApolloError } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import treatApolloError from '~/lib/graphql/treatApolloError'
 
-interface useFormsProps<T> {
+export type HandleSubmit<T> = (
+  variables: T,
+  setVariables: (variables: T) => void,
+) => void | Promise<void>
+
+export interface useFormsProps<T> {
   initialVariables: T
-  handleSubmit: (variables: T) => void | Promise<void>
+  handleSubmit: HandleSubmit<T>
 }
 
 export default function useForm<T>({
@@ -38,7 +43,7 @@ export default function useForm<T>({
     event.preventDefault()
 
     try {
-      await handleSubmit(variables)
+      await handleSubmit(variables, setVariables)
 
       setOtherError('')
       setErrors({})

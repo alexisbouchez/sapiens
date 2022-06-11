@@ -1,13 +1,28 @@
-import useForm from '~/hooks/useForm'
+import useForm, { HandleSubmit } from '~/hooks/useForm'
+import useSocket from '~/hooks/useSocket'
 import SubmitButton from '../common/forms/buttons/SubmitButton'
 
-export interface NewMessageFormProps {
-  handleSubmit: (variables: { message: string }) => void
+interface NewMessageFormState {
+  message: string
 }
 
-export default function NewMessageForm({ handleSubmit }: NewMessageFormProps) {
-  const { onChange, onSubmit } = useForm({
-    initialVariables: { message: '' },
+const initialVariables: NewMessageFormState = { message: '' }
+
+export default function NewMessageForm() {
+  const socket = useSocket()
+
+  const handleSubmit: HandleSubmit<NewMessageFormState> = (
+    variables,
+    setVariables,
+  ) => {
+    if (socket) {
+      socket.emit('clientToServer', variables.message)
+      setVariables(initialVariables)
+    }
+  }
+
+  const { onChange, onSubmit, variables } = useForm({
+    initialVariables: initialVariables,
     handleSubmit,
   })
 
@@ -16,7 +31,12 @@ export default function NewMessageForm({ handleSubmit }: NewMessageFormProps) {
       <div>
         <label htmlFor="message">New message</label>
         <div>
-          <textarea name="message" id="message" onChange={onChange}></textarea>
+          <textarea
+            name="message"
+            id="message"
+            value={variables.message}
+            onChange={onChange}
+          ></textarea>
         </div>
       </div>
       <SubmitButton>Send</SubmitButton>

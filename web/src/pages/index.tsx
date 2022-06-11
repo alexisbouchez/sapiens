@@ -7,7 +7,7 @@ import useSocket from '~/hooks/useSocket'
 
 const Home: Page = () => {
   const [messages, setMessages] = useState<string[]>([])
-  const socket = useSocket(process.env.NEXT_PUBLIC_BACKEND_URL || '')
+  const socket = useSocket()
 
   useEffect(() => {
     if (socket) {
@@ -17,16 +17,10 @@ const Home: Page = () => {
     }
   }, [socket])
 
-  const handleSubmit = (variables: { message: string }) => {
-    if (socket) {
-      socket.emit('clientToServer', variables.message)
-    }
-  }
-
   return (
     <Container>
       <h1>Discuss</h1>
-      <NewMessageForm handleSubmit={handleSubmit} />
+      <NewMessageForm />
       <MessagesList messages={messages} />
     </Container>
   )
