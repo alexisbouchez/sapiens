@@ -1,6 +1,7 @@
 import useForm, { HandleSubmit } from '~/hooks/useForm'
 import useSocket from '~/hooks/useSocket'
 import SubmitButton from '../common/forms/buttons/SubmitButton'
+import TextareaField from '../common/forms/fields/TextareaField'
 
 interface NewMessageFormState {
   message: string
@@ -27,18 +28,14 @@ export default function NewMessageForm() {
   })
 
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="message">New message</label>
-        <div>
-          <textarea
-            name="message"
-            id="message"
-            value={variables.message}
-            onChange={onChange}
-          ></textarea>
-        </div>
-      </div>
+    <form onSubmit={onSubmit} className="space-y-4">
+      <TextareaField
+        id="message"
+        label="New message"
+        name="message"
+        value={variables.message}
+        onChange={onChange}
+      />
       <SubmitButton>Send</SubmitButton>
     </form>
   )
