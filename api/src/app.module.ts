@@ -13,6 +13,9 @@ import { UsersModule } from './users/users.module'
       sortSchema: true,
       context: ({ req }) => ({ req }),
       cors: { origin: true, credentials: true },
+      subscriptions: {
+        'graphql-ws': true,
+      },
     }),
     AuthModule,
     UsersModule,
