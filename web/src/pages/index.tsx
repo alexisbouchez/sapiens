@@ -3,19 +3,19 @@ import Container from '~/components/common/Container'
 import type { Page } from '~/types'
 import NewMessageForm from '~/components/chat/NewMessageForm'
 import MessagesList from '~/components/chat/MessagesList'
-import useSocket from '~/hooks/useSocket'
+import { useSubscription } from '@apollo/client'
+import { CHAT_ADDED } from '~/lib/graphql/subscriptions/chat'
 
 const Home: Page = () => {
   const [messages, setMessages] = useState<string[]>([])
-  const socket = useSocket()
+
+  const { data } = useSubscription(CHAT_ADDED)
 
   useEffect(() => {
-    if (socket) {
-      socket.on('serverToClient', (message: string) => {
-        setMessages((messages) => [...messages, message])
-      })
+    if (data) {
+      setMessages([...messages, data.chatAdded.message])
     }
-  }, [socket])
+  }, [data])
 
   return (
     <Container>

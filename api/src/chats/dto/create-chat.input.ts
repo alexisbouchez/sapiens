@@ -5,5 +5,5 @@ import { IsString } from 'class-validator'
 export class CreateChatInput {
   @Field(() => String)
   @IsString()
-  password: string
+  message: string
 }

@@ -9,7 +9,7 @@ import { SIGN_IN } from '~/lib/graphql/mutations/auth'
 import AuthHeader from '~/components/auth/AuthHeader'
 import Link from 'next/link'
 
-export default function SignIn() {
+const SignIn: Page = () => {
   const [signIn, { loading }] = useMutation(SIGN_IN)
   const { setMe } = useAuthContext()
   const router = useRouter()
@@ -84,3 +84,5 @@ export default function SignIn() {
 }
 
 SignIn.title = 'Sign In'
+
+export default SignIn

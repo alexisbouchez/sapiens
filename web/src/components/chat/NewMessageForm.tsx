@@ -1,5 +1,6 @@
+import { useMutation } from '@apollo/client'
 import useForm, { HandleSubmit } from '~/hooks/useForm'
-import useSocket from '~/hooks/useSocket'
+import { ADD_CHAT } from '~/lib/graphql/mutations/chat'
 import SubmitButton from '../common/forms/buttons/SubmitButton'
 import TextareaField from '../common/forms/fields/TextareaField'
 
@@ -10,16 +11,14 @@ interface NewMessageFormState {
 const initialVariables: NewMessageFormState = { message: '' }
 
 export default function NewMessageForm() {
-  const socket = useSocket()
+  const [addChat] = useMutation(ADD_CHAT)
 
-  const handleSubmit: HandleSubmit<NewMessageFormState> = (
+  const handleSubmit: HandleSubmit<NewMessageFormState> = async (
     variables,
     setVariables,
   ) => {
-    if (socket) {
-      socket.emit('clientToServer', variables.message)
-      setVariables(initialVariables)
-    }
+    await addChat({ variables })
+    setVariables(initialVariables)
   }
 
   const { onChange, onSubmit, variables } = useForm({

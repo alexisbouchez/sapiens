@@ -46,5 +46,31 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 }
 
 function extractFromCookie(request: Request) {
-  return request?.cookies[authCookieKey] || 'pouet'
+  if (request.headers.cookie) {
+    request.cookies = buildCookiesObjectFromCookieString(request.headers.cookie)
+  }
+
+  return request.cookies[authCookieKey]
+}
+
+function buildCookiesObjectFromCookieString(cookie?: string) {
+  if (!cookie) {
+    return {}
+  }
+
+  const sessionCookie = cookie
+    .split('; ')
+    .find((cookie: string) => cookie.startsWith(authCookieKey))
+
+  if (!sessionCookie) {
+    return {}
+  }
+
+  const splittedCookie = sessionCookie.split('=')
+
+  if (splittedCookie.length !== 2) {
+    return {}
+  }
+
+  return { [authCookieKey]: splittedCookie[1] }
 }
