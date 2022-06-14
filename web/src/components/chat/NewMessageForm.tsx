@@ -10,14 +10,18 @@ interface NewMessageFormState {
 
 const initialVariables: NewMessageFormState = { message: '' }
 
-export default function NewMessageForm() {
+interface NewMessageFormProps {
+  chatRoomId: string
+}
+
+export default function NewMessageForm({ chatRoomId }: NewMessageFormProps) {
   const [addChat] = useMutation(ADD_CHAT)
 
   const handleSubmit: HandleSubmit<NewMessageFormState> = async (
     variables,
     setVariables,
   ) => {
-    await addChat({ variables })
+    await addChat({ variables: { ...variables, chatRoomId } })
     setVariables(initialVariables)
   }
 

@@ -39,8 +39,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       this.throwError(request.useWebSockets)
     }
 
-    userFoundById.password = undefined
-
     return userFoundById
   }
 }

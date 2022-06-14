@@ -1,0 +1,36 @@
+import { UseGuards } from '@nestjs/common'
+import { Args, Mutation, Resolver, Subscription } from '@nestjs/graphql'
+import { JwtAuthGuard } from '~/auth/jwt-auth.guard'
+import { CurrentUser } from '~/users/current-user.decorator'
+import { User } from '~/users/user.entity'
+import { ChatRoomsService } from './chat-rooms.service'
+import { Chat } from './entities/chat.entity'
+import { CreateChatInput } from './dto/create-chat.input'
+import { ChatRoom } from './entities/chat-room.entity'
+
+@Resolver()
+export class ChatRoomsResolver {
+  constructor(private readonly chatRoomsService: ChatRoomsService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => ChatRoom)
+  createChatRoom(@CurrentUser() user: User, @Args('userId') userId: string) {
+    return this.chatRoomsService.createChatRoom(user, userId)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Chat)
+  addChat(
+    @CurrentUser() user: User,
+    @Args('chatRoomId') chatRoomId: string,
+    @Args('createChatInput') createChatInput: CreateChatInput,
+  ) {
+    return this.chatRoomsService.addChat(user, chatRoomId, createChatInput)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Subscription(() => Chat)
+  chatAdded(@CurrentUser() user: User, @Args('chatRoomId') chatRoomId: string) {
+    return this.chatRoomsService.chatAdded(user, chatRoomId)
+  }
+}

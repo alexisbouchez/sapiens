@@ -1,10 +1,9 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
-import { Context } from 'graphql-ws'
 import { AuthModule } from './auth/auth.module'
-import { ChatsModule } from './chats/chats.module'
 import { UsersModule } from './users/users.module'
+import { ChatRoomsModule } from './chat-rooms/chat-rooms.module'
 
 @Module({
   imports: [
@@ -34,7 +33,7 @@ import { UsersModule } from './users/users.module'
     }),
     AuthModule,
     UsersModule,
-    ChatsModule,
+    ChatRoomsModule,
   ],
 })
 export class AppModule {}

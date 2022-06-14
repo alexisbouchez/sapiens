@@ -10,6 +10,9 @@ export class UsersRepository {
   }
 
   findOneById(id: string) {
-    return this.prisma.user.findUnique({ where: { id } })
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: { id: true, email: true, chatRooms: true },
+    })
   }
 }
