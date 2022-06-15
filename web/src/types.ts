@@ -12,10 +12,29 @@ export type MyAppProps = AppProps &
     Component: AdditionalPageProps
   }
 
-export type Page = NextPage & AdditionalPageProps
+export type Page<T = {}> = NextPage<T> & AdditionalPageProps
 
 export type Errors = Record<string, string[]> | string
 
 export type User = {
+  id: string
   email: string
+  role: Role
+  profile?: Profile
+}
+
+export type Profile = {
+  id: string
+  name: string
+}
+
+export type Chat = {
+  id: string
+  message: string
+  userId: string
+}
+
+export enum Role {
+  FREELANCER = 'FREELANCER',
+  RECRUITER = 'RECRUITER',
 }

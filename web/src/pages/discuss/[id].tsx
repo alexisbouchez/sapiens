@@ -1,18 +1,17 @@
 import { useSubscription } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import MessagesList from '~/components/chat/MessagesList'
-import NewChatRoom from '~/components/chat/NewChatRoom'
+import ChatsList from '~/components/chat/ChatsList'
 import NewMessageForm from '~/components/chat/NewMessageForm'
 import Container from '~/components/common/Container'
 import { CHAT_ADDED } from '~/lib/graphql/subscriptions/chat'
-import { Page } from '~/types'
+import type { Chat, Page } from '~/types'
 
 const Discuss: Page = () => {
   const {
     query: { id: chatRoomId },
   } = useRouter()
-  const [messages, setMessages] = useState<string[]>([])
+  const [chats, setChats] = useState<Chat[]>([])
 
   const { data } = useSubscription(CHAT_ADDED, {
     variables: { chatRoomId },
@@ -20,7 +19,7 @@ const Discuss: Page = () => {
 
   useEffect(() => {
     if (data) {
-      setMessages([...messages, data.chatAdded.message])
+      setChats([...chats, data.chatAdded])
     }
   }, [data])
 
@@ -28,7 +27,7 @@ const Discuss: Page = () => {
     <Container>
       <h1>Discuss</h1>
       <NewMessageForm chatRoomId={chatRoomId as string} />
-      <MessagesList messages={messages} />
+      <ChatsList chats={chats} />
     </Container>
   )
 }

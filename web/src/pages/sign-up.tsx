@@ -9,20 +9,26 @@ import { SIGN_UP } from '~/lib/graphql/mutations/auth'
 import AuthHeader from '~/components/auth/AuthHeader'
 import Link from 'next/link'
 
+const roles = [
+  { id: 'FREELANCER', title: 'Freelancer' },
+  { id: 'RECRUITER', title: 'Recruiter' },
+]
+
 const SignUp: Page = () => {
   const [signUp, { loading }] = useMutation(SIGN_UP)
   const router = useRouter()
   const { setMe } = useAuthContext()
 
-  const { variables, onChange, onSubmit, errors, otherError } = useForm({
-    initialVariables: { email: '', password: '' },
-    handleSubmit: async (variables) => {
-      const { data } = await signUp({ variables })
+  const { variables, setVariables, onChange, onSubmit, errors, otherError } =
+    useForm({
+      initialVariables: { email: '', password: '', role: 'FREELANCER' },
+      handleSubmit: async (variables) => {
+        const { data } = await signUp({ variables })
 
-      setMe(data.signUp)
-      router.push('/settings')
-    },
-  })
+        setMe(data.signUp)
+        router.push('/settings')
+      },
+    })
 
   return (
     <>
@@ -41,6 +47,29 @@ const SignUp: Page = () => {
             <div className="mt-8">
               <div className="mt-6">
                 <form className="space-y-6" onSubmit={onSubmit}>
+                  <fieldset className="mt-4 space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                    {roles.map((role) => (
+                      <div key={role.id} className="flex items-center">
+                        <input
+                          id={role.id}
+                          name="role"
+                          type="radio"
+                          defaultChecked={role.id === 'FREELANCER'}
+                          onChange={({ target: { id } }) => {
+                            setVariables({ ...variables, role: id })
+                          }}
+                          className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
+                        />
+                        <label
+                          htmlFor={role.id}
+                          className="ml-3 block text-sm font-medium text-gray-700"
+                        >
+                          {role.title}
+                        </label>
+                      </div>
+                    ))}
+                  </fieldset>
+
                   <InputField
                     id="email"
                     name="email"

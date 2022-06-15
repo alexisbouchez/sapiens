@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { useEffect } from 'react'
 import useAuthContext from '~/hooks/useAuthContext'
-import { ME } from '~/lib/graphql/mutations/users'
+import { ME } from '~/lib/graphql/queries/users'
 
 export default function useMe() {
   const { me, setMe } = useAuthContext()

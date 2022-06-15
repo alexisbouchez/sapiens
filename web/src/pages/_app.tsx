@@ -5,7 +5,7 @@ import App from 'next/app'
 import apolloClient from '~/lib/graphql/apolloClient'
 import AuthProvider from '~/contexts/auth/AuthProvider'
 import Layout from '~/components/Layout'
-import { ME } from '~/lib/graphql/mutations/users'
+import { ME } from '~/lib/graphql/queries/users'
 import { MyAppProps } from '~/types'
 import isValidAuthCookie from '~/lib/isValidAuthCookie'
 
@@ -38,6 +38,9 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
           },
         },
       })
+
+      console.log('me', data.me)
+
       me = data.me
     } catch {}
   }

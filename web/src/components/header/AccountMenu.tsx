@@ -3,8 +3,11 @@ import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import SignOutButton from './SignOutButton'
+import useMe from '~/hooks/useMe'
 
 export default function AccountMenu() {
+  const { me } = useMe()
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       {({ open }) => (
@@ -45,6 +48,19 @@ export default function AccountMenu() {
                 <p className="truncate text-sm font-medium text-gray-900"></p>
               </div>
               <div className="py-1">
+                {me?.role === 'FREELANCER' && (
+                  <Menu.Item>
+                    <Link
+                      href={`/profile/${
+                        me?.profile?.id ? me?.profile?.id : 'create'
+                      }`}
+                    >
+                      <a className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 hover:text-gray-900">
+                        Profile
+                      </a>
+                    </Link>
+                  </Menu.Item>
+                )}
                 <Menu.Item>
                   <Link href="/settings">
                     <a className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 hover:text-gray-900">
