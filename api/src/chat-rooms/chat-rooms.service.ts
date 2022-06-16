@@ -2,17 +2,27 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { PubSub } from 'graphql-subscriptions'
 import { PrismaService } from '~/prisma.service'
 import { User } from '~/users/user.entity'
-import { UsersRepository } from '~/users/users.repository'
 import { CreateChatInput } from './dto/create-chat.input'
 
 const pubSub = new PubSub()
 
 @Injectable()
 export class ChatRoomsService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly usersRepository: UsersRepository,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
+
+  async openChatRoom(user: User, userId: string) {
+    const chatRoom = await this.prisma.chatRoom.findFirst({
+      where: {
+        participants: { some: { AND: [{ id: user.id }, { id: userId }] } },
+      },
+    })
+
+    if (!chatRoom) {
+      return this.createChatRoom(user, userId)
+    }
+
+    return { id: chatRoom.id }
+  }
 
   async createChatRoom(user: User, userId: string) {
     const chatRoom = await this.prisma.chatRoom.create({
@@ -49,7 +59,8 @@ export class ChatRoomsService {
     createChatInput: CreateChatInput,
   ) {
     await this.checkUserIsInChatRoom(user, chatRoomId)
-    await this.prisma.chat.create({
+
+    const chatAdded = await this.prisma.chat.create({
       data: {
         ...createChatInput,
         chatRoom: { connect: { id: chatRoomId } },
@@ -57,14 +68,14 @@ export class ChatRoomsService {
       },
     })
 
-    console.log(await this.prisma.chat.findMany())
+    pubSub.publish(`chatAdded/${chatRoomId}`, { chatAdded })
 
-    pubSub.publish(`chatAdded/${chatRoomId}`, { chatAdded: createChatInput })
     return createChatInput
   }
 
   async chatAdded(user: User, chatRoomId: string) {
     await this.checkUserIsInChatRoom(user, chatRoomId)
+
     return pubSub.asyncIterator(`chatAdded/${chatRoomId}`)
   }
 }

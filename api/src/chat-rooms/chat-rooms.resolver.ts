@@ -14,8 +14,8 @@ export class ChatRoomsResolver {
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => ChatRoom)
-  createChatRoom(@CurrentUser() user: User, @Args('userId') userId: string) {
-    return this.chatRoomsService.createChatRoom(user, userId)
+  openChatRoom(@CurrentUser() user: User, @Args('userId') userId: string) {
+    return this.chatRoomsService.openChatRoom(user, userId)
   }
 
   @UseGuards(JwtAuthGuard)

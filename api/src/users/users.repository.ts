@@ -6,13 +6,16 @@ export class UsersRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   findOneByEmail(email: string) {
-    return this.prisma.user.findUnique({ where: { email } })
+    return this.prisma.user.findUnique({
+      where: { email },
+      include: { profile: true },
+    })
   }
 
-  findOneById(id: string) {
+  findOneByIdExcludingPassword(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
-      select: { id: true, email: true, chatRooms: true },
+      select: { id: true, email: true, role: true, profile: true },
     })
   }
 }

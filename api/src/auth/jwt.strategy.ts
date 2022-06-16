@@ -33,7 +33,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       this.throwError(request.useWebSockets)
     }
 
-    const userFoundById = await this.usersRepository.findOneById(payload.id)
+    const userFoundById =
+      await this.usersRepository.findOneByIdExcludingPassword(payload.id)
 
     if (!userFoundById) {
       this.throwError(request.useWebSockets)

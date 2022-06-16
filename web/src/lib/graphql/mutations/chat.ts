@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
-export const CREATE_CHAT_ROOM = gql`
-  mutation CreateChatRoom($userId: String!) {
-    createChatRoom(userId: $userId) {
+export const OPEN_CHAT_ROOM = gql`
+  mutation OpenChatRoom($userId: String!) {
+    openChatRoom(userId: $userId) {
       id
     }
   }

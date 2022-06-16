@@ -1,7 +1,9 @@
 import type { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import { ParsedUrlQuery } from 'querystring'
+import ChatButton from '~/components/chat/ChatButton'
 import Container from '~/components/common/Container'
+import useMe from '~/hooks/useMe'
 import apolloClient from '~/lib/graphql/apolloClient'
 import {
   GET_PROFILE_BY_ID,
@@ -10,11 +12,17 @@ import {
 import type { Page, Profile } from '~/types'
 
 const ProfilePage: Page<Props> = ({ profile }) => {
+  const { me } = useMe()
+
   return (
     <Container>
       <Head>
         <title>{profile.name}</title>
       </Head>
+
+      {me && me.profile?.id !== profile.id && (
+        <ChatButton freelancerId={profile.userId!} />
+      )}
 
       <h1>{profile.name}</h1>
     </Container>
@@ -57,7 +65,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (ctx) => {
     })
 
     return { props: { profile: data.profile }, revalidate: 1 }
-  } catch {
+  } catch (error) {
     return { notFound: true }
   }
 }

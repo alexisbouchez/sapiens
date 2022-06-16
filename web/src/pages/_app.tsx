@@ -39,8 +39,6 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
         },
       })
 
-      console.log('me', data.me)
-
       me = data.me
     } catch {}
   }

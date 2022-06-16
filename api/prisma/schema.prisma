@@ -11,9 +11,17 @@ model User {
   id        String     @id @default(cuid())
   email     String     @unique
   password  String
-  role      String     @default("STUDENT")
+  role      String
   chatRooms ChatRoom[]
   Chat      Chat[]
+  profile   Profile?
+}
+
+model Profile {
+  id     String @id @default(cuid())
+  name   String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
 }
 
 model ChatRoom {
