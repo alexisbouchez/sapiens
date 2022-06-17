@@ -78,4 +78,12 @@ export class ChatRoomsService {
 
     return pubSub.asyncIterator(`chatAdded/${chatRoomId}`)
   }
+
+  async chats(user: User, chatRoomId: string) {
+    await this.checkUserIsInChatRoom(user, chatRoomId)
+
+    return this.prisma.chat.findMany({
+      where: { chatRoom: { id: chatRoomId } },
+    })
+  }
 }
