@@ -17,7 +17,7 @@ export default function ChatButton({ freelancerId }: ChatButtonProps) {
           openChatRoom: { id },
         },
       } = await openChatRoom({ variables: { userId: freelancerId } })
-      router.push(`/discuss/${id}`)
+      router.push(`/conversations/${id}`)
     } catch {}
   }
 

@@ -1,4 +1,4 @@
-import { useQuery, useSubscription } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import ChatsList from '~/components/chat/ChatsList'
@@ -6,9 +6,9 @@ import NewMessageForm from '~/components/chat/NewMessageForm'
 import Container from '~/components/common/Container'
 import { CHATS_QUERY } from '~/lib/graphql/queries/chats'
 import { CHAT_ADDED } from '~/lib/graphql/subscriptions/chat'
-import type { Chat, Page } from '~/types'
+import type { Page } from '~/types'
 
-const Discuss: Page = () => {
+const Conversation: Page = () => {
   const {
     query: { id: chatRoomId },
   } = useRouter()
@@ -43,13 +43,13 @@ const Discuss: Page = () => {
 
   return (
     <Container>
-      <h1>Discuss</h1>
+      <h1>Conversation</h1>
       <NewMessageForm chatRoomId={chatRoomId as string} />
       <ChatsList chats={result.data?.chats || []} />
     </Container>
   )
 }
 
-export default Discuss
+export default Conversation
 
-Discuss.isPrivate = true
+Conversation.isPrivate = true

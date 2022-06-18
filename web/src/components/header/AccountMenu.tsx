@@ -48,6 +48,13 @@ export default function AccountMenu() {
                 <p className="truncate text-sm font-medium text-gray-900"></p>
               </div>
               <div className="py-1">
+                <Menu.Item>
+                  <Link href="/conversations">
+                    <a className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 hover:text-gray-900">
+                      Conversations
+                    </a>
+                  </Link>
+                </Menu.Item>
                 {me?.role === 'FREELANCER' && (
                   <Menu.Item>
                     <Link
