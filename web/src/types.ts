@@ -39,3 +39,8 @@ export enum Role {
   FREELANCER = 'FREELANCER',
   RECRUITER = 'RECRUITER',
 }
+
+export type ChatRoom = {
+  id: string
+  otherUserEmail: string
+}

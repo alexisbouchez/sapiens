@@ -4,4 +4,7 @@ import { Field, ObjectType } from '@nestjs/graphql'
 export class ChatRoom {
   @Field(() => String)
   id: string
+
+  @Field(() => String)
+  otherUserEmail: string
 }

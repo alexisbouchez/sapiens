@@ -9,3 +9,12 @@ export const CHATS_QUERY = gql`
     }
   }
 `
+
+export const CHAT_ROOMS_QUERY = gql`
+  query ChatRooms {
+    chatRooms {
+      id
+      otherUserEmail
+    }
+  }
+`

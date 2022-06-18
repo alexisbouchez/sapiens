@@ -10,6 +10,24 @@ const pubSub = new PubSub()
 export class ChatRoomsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async chatRooms(user: User) {
+    const chatRooms = await this.prisma.chatRoom.findMany({
+      where: { participants: { some: { id: user.id } } },
+      select: {
+        id: true,
+        participants: {
+          select: { id: true, email: true },
+          where: { id: { not: { equals: user.id } } },
+        },
+      },
+    })
+
+    return chatRooms.map((chatRoom) => ({
+      id: chatRoom.id,
+      otherUserEmail: chatRoom.participants[0].email,
+    }))
+  }
+
   async openChatRoom(user: User, userId: string) {
     const chatRoom = await this.prisma.chatRoom.findFirst({
       where: {

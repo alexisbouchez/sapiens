@@ -13,6 +13,12 @@ export class ChatRoomsResolver {
   constructor(private readonly chatRoomsService: ChatRoomsService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Query(() => [ChatRoom])
+  chatRooms(@CurrentUser() user: User) {
+    return this.chatRoomsService.chatRooms(user)
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Mutation(() => ChatRoom)
   openChatRoom(@CurrentUser() user: User, @Args('userId') userId: string) {
     return this.chatRoomsService.openChatRoom(user, userId)
