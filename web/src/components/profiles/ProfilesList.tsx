@@ -11,7 +11,7 @@ export default function ProfilesList({ profiles }: ProfilesList) {
       {profiles.map((profile) => (
         <Link key={profile.id} href={`/profile/${profile.id}`}>
           <a>
-            <li>{profile.name}</li>
+            <li>{profile.user?.name}</li>
           </a>
         </Link>
       ))}

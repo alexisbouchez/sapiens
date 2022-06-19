@@ -5,11 +5,8 @@ export const ME = gql`
     me {
       id
       email
+      name
       role
-      profile {
-        id
-        name
-      }
     }
   }
 `

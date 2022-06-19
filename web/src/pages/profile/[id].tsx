@@ -17,14 +17,14 @@ const ProfilePage: Page<Props> = ({ profile }) => {
   return (
     <Container>
       <Head>
-        <title>{profile.name}</title>
+        <title>{profile.user?.name}</title>
       </Head>
 
       {me && me.profile?.id !== profile.id && (
-        <ChatButton freelancerId={profile.userId!} />
+        <ChatButton freelancerId={profile?.user?.id!} />
       )}
 
-      <h1>{profile.name}</h1>
+      <h1>{profile.user?.name}</h1>
     </Container>
   )
 }
@@ -65,7 +65,9 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (ctx) => {
     })
 
     return { props: { profile: data.profile }, revalidate: 1 }
-  } catch (error) {
+  } catch (error: any) {
+    console.log(error.graphQLErrors)
+
     return { notFound: true }
   }
 }

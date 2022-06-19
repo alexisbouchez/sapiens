@@ -21,7 +21,12 @@ const SignUp: Page = () => {
 
   const { variables, setVariables, onChange, onSubmit, errors, otherError } =
     useForm({
-      initialVariables: { email: '', password: '', role: 'FREELANCER' },
+      initialVariables: {
+        email: '',
+        password: '',
+        name: '',
+        role: 'FREELANCER',
+      },
       handleSubmit: async (variables) => {
         const { data } = await signUp({ variables })
 
@@ -70,6 +75,16 @@ const SignUp: Page = () => {
                     ))}
                   </fieldset>
 
+                  <InputField
+                    id="name"
+                    name="name"
+                    label="Full name"
+                    type="text"
+                    placeholder="John Doe"
+                    value={variables.name}
+                    onChange={onChange}
+                    errors={errors.name}
+                  />
                   <InputField
                     id="email"
                     name="email"

@@ -6,5 +6,5 @@ export class ChatRoom {
   id: string
 
   @Field(() => String)
-  otherUserEmail: string
+  otherUserName: string
 }

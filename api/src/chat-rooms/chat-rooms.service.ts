@@ -16,7 +16,7 @@ export class ChatRoomsService {
       select: {
         id: true,
         participants: {
-          select: { id: true, email: true },
+          select: { id: true, name: true },
           where: { id: { not: { equals: user.id } } },
         },
       },
@@ -24,7 +24,7 @@ export class ChatRoomsService {
 
     return chatRooms.map((chatRoom) => ({
       id: chatRoom.id,
-      otherUserEmail: chatRoom.participants[0].email,
+      otherUserName: chatRoom.participants[0].name,
     }))
   }
 

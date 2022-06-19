@@ -4,8 +4,11 @@ export const GET_PROFILE_BY_ID = gql`
   query GetProfileById($id: String!) {
     profile(id: $id) {
       id
-      name
-      userId
+      price
+      user {
+        id
+        name
+      }
     }
   }
 `
@@ -14,7 +17,10 @@ export const QUERY_PROFILES = gql`
   query QueryProfiles {
     profiles {
       id
-      name
+      price
+      user {
+        name
+      }
     }
   }
 `

@@ -1,10 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { IsString, MinLength } from 'class-validator'
+import { IsNumber, Min } from 'class-validator'
 
 @InputType()
 export class CreateProfileInput {
   @Field()
-  @IsString()
-  @MinLength(1)
-  name: string
+  @IsNumber()
+  @Min(150)
+  price: number
 }

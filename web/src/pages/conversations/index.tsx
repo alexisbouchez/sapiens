@@ -14,7 +14,7 @@ const Conversations: Page = () => {
         {data?.chatRooms.map((chatRoom: ChatRoom, key: number) => (
           <Link key={chatRoom.id} href={`/conversations/${chatRoom.id}`}>
             <a>
-              <li>{chatRoom.otherUserEmail}</li>
+              <li>{chatRoom.otherUserName}</li>
             </a>
           </Link>
         ))}

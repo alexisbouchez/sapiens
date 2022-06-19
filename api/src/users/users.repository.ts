@@ -15,7 +15,7 @@ export class UsersRepository {
   findOneByIdExcludingPassword(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
-      select: { id: true, email: true, role: true, profile: true },
+      select: { id: true, email: true, role: true, name: true, profile: true },
     })
   }
 }

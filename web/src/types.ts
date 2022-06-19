@@ -20,13 +20,14 @@ export type User = {
   id: string
   email: string
   role: Role
+  name: string
   profile?: Profile
 }
 
 export type Profile = {
   id: string
-  name: string
-  userId?: string
+  price: number
+  user?: User
 }
 
 export type Chat = {
@@ -42,5 +43,5 @@ export enum Role {
 
 export type ChatRoom = {
   id: string
-  otherUserEmail: string
+  otherUserName: string
 }

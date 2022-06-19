@@ -1,10 +1,10 @@
 import { gql } from '@apollo/client'
 
 export const CREATE_PROFILE = gql`
-  mutation CreateProfile($name: String!) {
-    createProfile(createProfileInput: { name: $name }) {
+  mutation CreateProfile($price: Float!) {
+    createProfile(createProfileInput: { price: $price }) {
       id
-      name
+      price
     }
   }
 `

@@ -14,7 +14,7 @@ export const CHAT_ROOMS_QUERY = gql`
   query ChatRooms {
     chatRooms {
       id
-      otherUserEmail
+      otherUserName
     }
   }
 `

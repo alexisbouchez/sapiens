@@ -10,24 +10,33 @@ export class ProfilesService {
   create(user: User, createProfileInput: CreateProfileInput) {
     return this.prisma.profile.create({
       data: {
-        name: createProfileInput.name,
+        price: createProfileInput.price,
         user: {
-          connect: {
-            id: user.id,
-          },
+          connect: { id: user.id },
         },
       },
+      include: { user: { select: { id: true, name: true } } },
     })
   }
 
   findOneById(id: string) {
     return this.prisma.profile.findUnique({
       where: { id },
-      select: { userId: true, id: true, name: true },
+      select: {
+        user: { select: { id: true, name: true } },
+        id: true,
+        price: true,
+      },
     })
   }
 
   query() {
-    return this.prisma.profile.findMany()
+    return this.prisma.profile.findMany({
+      select: {
+        id: true,
+        price: true,
+        user: { select: { id: true, name: true } },
+      },
+    })
   }
 }

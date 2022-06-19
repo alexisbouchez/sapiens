@@ -11,6 +11,9 @@ export class User {
   email: string
 
   @Field(() => String)
+  name: string
+
+  @Field(() => String)
   role: Role
 
   @Field(() => Profile, { nullable: true })

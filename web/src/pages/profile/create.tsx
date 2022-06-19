@@ -15,7 +15,7 @@ const CreateProfilePage: Page = () => {
 
   const { errors, variables, onChange, onSubmit } = useForm({
     initialVariables: {
-      name: '',
+      price: 150,
     },
     handleSubmit: async (variables) => {
       const { data } = await createProfile({ variables })
@@ -29,13 +29,16 @@ const CreateProfilePage: Page = () => {
       <form className="space-y-4" onSubmit={onSubmit}>
         <h1>Create profile</h1>
         <InputField
-          name="name"
-          id="name"
-          label="Name"
-          placeholder="John Doe"
-          value={variables.name}
+          name="price"
+          id="price"
+          label="Daily rate"
+          placeholder="300$"
+          min="150"
+          type="number"
+          step="10"
+          value={variables.price}
           onChange={onChange}
-          errors={errors.name}
+          errors={errors.price}
         />
 
         {errors.other && (
