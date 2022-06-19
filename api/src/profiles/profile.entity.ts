@@ -1,4 +1,5 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql'
+import { User } from '~/users/user.entity'
 
 @ObjectType()
 export class Profile {
@@ -8,6 +9,6 @@ export class Profile {
   @Field(() => Float)
   price: string
 
-  @Field(() => String)
-  userId: string
+  @Field(() => User)
+  user: User
 }

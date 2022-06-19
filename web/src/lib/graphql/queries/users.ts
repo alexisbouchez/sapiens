@@ -7,6 +7,10 @@ export const ME = gql`
       email
       name
       role
+      profile {
+        id
+        price
+      }
     }
   }
 `

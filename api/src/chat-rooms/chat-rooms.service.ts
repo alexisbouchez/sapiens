@@ -31,7 +31,9 @@ export class ChatRoomsService {
   async openChatRoom(user: User, userId: string) {
     const chatRoom = await this.prisma.chatRoom.findFirst({
       where: {
-        participants: { some: { AND: [{ id: user.id }, { id: userId }] } },
+        participants: {
+          some: { id: { in: [user.id, userId] } },
+        },
       },
     })
 

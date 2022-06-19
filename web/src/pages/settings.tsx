@@ -22,15 +22,15 @@ const Settings: Page = () => {
     setErrors,
     setOtherError,
   } = useForm({
-    initialVariables: { email: me?.email || '' },
+    initialVariables: { email: me?.email || '', name: me?.name || '' },
     handleSubmit: async (variables) => {
       await updateUser({ variables })
-      setMe(variables)
+      setMe({ ...me!, ...variables })
     },
   })
 
   const onCancel = () => {
-    setVariables({ email: me?.email || '' })
+    setVariables({ email: me?.email || '', name: me?.name || '' })
     setErrors({})
     setOtherError('')
   }
@@ -45,6 +45,16 @@ const Settings: Page = () => {
         </div>
 
         <InputField
+          label="Full name"
+          type="text"
+          id="name"
+          name="name"
+          value={variables.name}
+          onChange={onChange}
+          errors={errors.name}
+        />
+
+        <InputField
           label="Email"
           type="email"
           id="email"
@@ -55,7 +65,6 @@ const Settings: Page = () => {
         />
 
         {otherError ? <p className="text-red-600">{otherError}</p> : null}
-
         <div className="flex">
           <CancelButton onClick={onCancel} />
 

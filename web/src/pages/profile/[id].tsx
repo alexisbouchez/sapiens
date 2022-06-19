@@ -66,8 +66,6 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (ctx) => {
 
     return { props: { profile: data.profile }, revalidate: 1 }
   } catch (error: any) {
-    console.log(error.graphQLErrors)
-
     return { notFound: true }
   }
 }
