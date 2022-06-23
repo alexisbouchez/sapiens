@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client'
 import { useRouter } from 'next/router'
+import React from 'react'
 import Container from '~/components/common/Container'
 import SubmitButton from '~/components/common/forms/buttons/SubmitButton'
 import InputField from '~/components/common/forms/fields/InputField'
@@ -13,16 +14,29 @@ const CreateProfilePage: Page = () => {
   const { me, setMe } = useMe()
   const router = useRouter()
 
-  const { errors, variables, onChange, onSubmit } = useForm({
+  const { setVariables, errors, variables, onChange, onSubmit } = useForm<{
+    price: number
+    avatar: null | File
+  }>({
     initialVariables: {
       price: 150,
+      avatar: null,
     },
     handleSubmit: async (variables) => {
+      console.log('variables', variables)
       const { data } = await createProfile({ variables })
       setMe({ ...me!, profile: data.createProfile })
-      router.push('/profile/[id]', `/profile/${data.createProfile.id}`)
+      router.push('/profiles/[id]', `/profiles/${data.createProfile.id}`)
     },
   })
+
+  const onAvatarChange = ({
+    target: { validity, files },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    if (validity.valid && files?.length === 1) {
+      setVariables({ ...variables, avatar: files[0] })
+    }
+  }
 
   return (
     <Container>
@@ -44,6 +58,16 @@ const CreateProfilePage: Page = () => {
         {errors.other && (
           <div className="text-red-500 text-sm">{errors.other}</div>
         )}
+
+        <InputField
+          type="file"
+          name="avatar"
+          id="avatar"
+          accept="image/*"
+          label="Avatar"
+          onChange={onAvatarChange}
+          errors={errors.avatar}
+        />
 
         <SubmitButton loading={loading}>Create profile</SubmitButton>
       </form>

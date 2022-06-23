@@ -11,4 +11,7 @@ export class Profile {
 
   @Field(() => User)
   user: User
+
+  @Field(() => String, { nullable: true })
+  avatar?: string
 }

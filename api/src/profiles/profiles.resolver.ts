@@ -1,5 +1,7 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { FileUpload } from 'graphql-upload'
+import GraphQLUpload = require('graphql-upload/GraphQLUpload.js')
 import { JwtAuthGuard } from '~/auth/jwt-auth.guard'
 import { CurrentUser } from '~/users/current-user.decorator'
 import { User } from '~/users/user.entity'

@@ -9,6 +9,7 @@ export const ME = gql`
       role
       profile {
         id
+        avatar
         price
       }
     }

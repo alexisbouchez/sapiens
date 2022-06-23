@@ -28,6 +28,7 @@ export type Profile = {
   id: string
   price: number
   user?: User
+  avatar?: string
 }
 
 export type Chat = {

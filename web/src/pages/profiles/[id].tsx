@@ -1,38 +1,40 @@
 import type { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import { ParsedUrlQuery } from 'querystring'
-import ChatButton from '~/components/chat/ChatButton'
-import Container from '~/components/common/Container'
+import ProfileBanner from '~/components/profiles/ProfileBanner'
 import useMe from '~/hooks/useMe'
 import apolloClient from '~/lib/graphql/apolloClient'
 import {
   GET_PROFILE_BY_ID,
   QUERY_PROFILE_IDS,
 } from '~/lib/graphql/queries/profiles'
-import type { Page, Profile } from '~/types'
+import type { Page, Profile as IProfile } from '~/types'
 
 const ProfilePage: Page<Props> = ({ profile }) => {
   const { me } = useMe()
 
+  console.log(profile)
+
   return (
-    <Container>
+    <>
       <Head>
         <title>{profile.user?.name}</title>
       </Head>
 
-      {me && me.profile?.id !== profile.id && (
-        <ChatButton freelancerId={profile?.user?.id!} />
-      )}
-
-      <h1>{profile.user?.name}</h1>
-    </Container>
+      <ProfileBanner
+        freelancerId={profile.user?.id!}
+        freelancerProfileId={profile.id}
+        name={profile.user?.name!}
+        profile={profile}
+      />
+    </>
   )
 }
 
 export default ProfilePage
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const profiles: Profile[] = []
+  const profiles: IProfile[] = []
 
   try {
     const { data } = await apolloClient.query({
@@ -50,7 +52,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 interface Props {
-  profile: Profile
+  profile: IProfile
 }
 
 interface Params extends ParsedUrlQuery {

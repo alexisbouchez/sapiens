@@ -58,7 +58,7 @@ export default function AccountMenu() {
                 {me?.role === 'FREELANCER' && (
                   <Menu.Item>
                     <Link
-                      href={`/profile/${
+                      href={`/profiles/${
                         me?.profile?.id ? me?.profile?.id : 'create'
                       }`}
                     >

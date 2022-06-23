@@ -1,19 +1,12 @@
-import Link from 'next/link'
 import Container from '~/components/common/Container'
 import type { Page } from '~/types'
 
-const Home: Page = () => {
+const LandingPage: Page = () => {
   return (
     <Container>
-      <h1>Discuss</h1>
-
-      <Link href="/profiles">
-        <a>Profiles</a>
-      </Link>
+      <h1>Landing Page</h1>
     </Container>
   )
 }
 
-export default Home
-
-Home.isPrivate = true
+export default LandingPage
