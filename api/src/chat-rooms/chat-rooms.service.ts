@@ -32,7 +32,8 @@ export class ChatRoomsService {
     const chatRoom = await this.prisma.chatRoom.findFirst({
       where: {
         participants: {
-          some: { id: { in: [user.id, userId] } },
+          some: { id: user.id },
+          every: { id: userId },
         },
       },
     })
