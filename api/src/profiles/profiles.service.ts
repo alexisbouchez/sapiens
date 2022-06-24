@@ -26,9 +26,6 @@ export class ProfilesService {
   async uploadAvatar(id: string, file: Express.Multer.File) {
     try {
       const url = (await this.cloudinary.uploadImage(file)).secure_url
-      console.log('id', id)
-
-      console.log(await this.prisma.profile.findUnique({ where: { id } }))
 
       await this.prisma.profile.update({
         where: { id },

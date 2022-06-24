@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { PubSub } from 'graphql-subscriptions'
 import { PrismaService } from '~/prisma.service'
 import { User } from '~/users/user.entity'
@@ -46,6 +50,10 @@ export class ChatRoomsService {
   }
 
   async createChatRoom(user: User, userId: string) {
+    if (user.id === userId) {
+      throw new BadRequestException('You cannot chat with yourself')
+    }
+
     const chatRoom = await this.prisma.chatRoom.create({
       data: {
         participants: { connect: [{ id: user.id }, { id: userId }] },

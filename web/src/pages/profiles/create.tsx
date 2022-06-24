@@ -23,7 +23,6 @@ const CreateProfilePage: Page = () => {
       avatar: null,
     },
     handleSubmit: async (variables) => {
-      console.log('variables', variables)
       const { data } = await createProfile({ variables })
       setMe({ ...me!, profile: data.createProfile })
       router.push('/profiles/[id]', `/profiles/${data.createProfile.id}`)

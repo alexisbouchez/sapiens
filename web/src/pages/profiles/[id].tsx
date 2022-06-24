@@ -13,20 +13,13 @@ import type { Page, Profile as IProfile } from '~/types'
 const ProfilePage: Page<Props> = ({ profile }) => {
   const { me } = useMe()
 
-  console.log(profile)
-
   return (
     <>
       <Head>
         <title>{profile.user?.name}</title>
       </Head>
 
-      <ProfileBanner
-        freelancerId={profile.user?.id!}
-        freelancerProfileId={profile.id}
-        name={profile.user?.name!}
-        profile={profile}
-      />
+      <ProfileBanner profile={profile} />
     </>
   )
 }

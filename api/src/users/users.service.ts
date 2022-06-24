@@ -34,7 +34,7 @@ export class UsersService {
         where: { id: currentUser.id },
       })
 
-      updateUserInput.password = undefined
+      user.password = undefined
 
       return user
     } catch {

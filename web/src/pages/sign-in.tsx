@@ -19,7 +19,16 @@ const SignIn: Page = () => {
     handleSubmit: async (variables) => {
       const { data } = await signIn({ variables })
       setMe(data.signIn)
-      router.push('/settings')
+
+      if (data.role === 'FREELANCER') {
+        if (data.profile) {
+          router.push('/profiles/[id]', `/profiles/${data.profile.id}`)
+        } else {
+          router.push('/profiles/create')
+        }
+      } else {
+        router.push('/profiles')
+      }
     },
   })
 

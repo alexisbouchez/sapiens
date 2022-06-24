@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client'
 import useForm, { HandleSubmit } from '~/hooks/useForm'
 import { ADD_CHAT } from '~/lib/graphql/mutations/chat'
 import SubmitButton from '../common/forms/buttons/SubmitButton'
+import InputField from '../common/forms/fields/InputField'
 import TextareaField from '../common/forms/fields/TextareaField'
 
 interface NewMessageFormState {
@@ -31,15 +32,17 @@ export default function NewMessageForm({ chatRoomId }: NewMessageFormProps) {
   })
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <TextareaField
+    <form onSubmit={onSubmit} className="flex justify-between w-full">
+      <InputField
+        type="text"
         id="message"
-        label="New message"
         name="message"
+        placeholder="Message"
         value={variables.message}
         onChange={onChange}
+        className="rounded-r-none"
       />
-      <SubmitButton>Send</SubmitButton>
+      <SubmitButton className="rounded-l-none">Send</SubmitButton>
     </form>
   )
 }

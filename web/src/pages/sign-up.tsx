@@ -31,7 +31,12 @@ const SignUp: Page = () => {
         const { data } = await signUp({ variables })
 
         setMe(data.signUp)
-        router.push('/settings')
+
+        if (variables.role === 'FREELANCER') {
+          router.push('/profiles/create')
+        } else {
+          router.push('/profiles')
+        }
       },
     })
 

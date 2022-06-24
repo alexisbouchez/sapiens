@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import { MailIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
+import useMe from '~/hooks/useMe'
 import { OPEN_CHAT_ROOM } from '~/lib/graphql/mutations/chat'
 
 export interface ChatButtonProps {
@@ -8,6 +9,7 @@ export interface ChatButtonProps {
 }
 
 export default function ChatButton({ freelancerId }: ChatButtonProps) {
+  const { me } = useMe()
   const [openChatRoom, { loading }] = useMutation(OPEN_CHAT_ROOM)
   const router = useRouter()
 
@@ -25,7 +27,7 @@ export default function ChatButton({ freelancerId }: ChatButtonProps) {
   return (
     <button
       className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-      disabled={loading}
+      disabled={me?.id === freelancerId || loading}
       onClick={onClick}
     >
       <MailIcon
